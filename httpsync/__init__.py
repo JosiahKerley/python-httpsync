@@ -6,8 +6,10 @@ import random
 import argparse
 import requests
 from lxml import html
+from functools import partial
 from urllib.parse import urljoin
 from urllib.parse import urlparse
+from multiprocessing.dummy import Pool as ThreadPool 
 
 
 parser = argparse.ArgumentParser(description='HTTP Based Mirroring Tool')
@@ -25,7 +27,7 @@ results = parser.parse_args()
 url = results.url
 data_dir = results.directory
 enable_verbose = results.verbose
-
+pool = ThreadPool(4) 
 
 def info(string):
   print(str(string))
@@ -104,13 +106,14 @@ def list_local_paths(data_dir):
       yield urljoin(root+'/',file)
 
 
-def download(url, dest):
+def download(args):
   '''
   Download a file
   :param url: full url of what to download
   :param dest: where to download the file to
   :return:
   '''
+  url, dest = args
   info('Downloading {} to {}'.format(url,dest))
   temppath = dest+'.tmp'
   r = requests.get(url, stream=True)
@@ -126,6 +129,7 @@ def fetch_files(files):
   Loop through a list of files and handles whether or not it needs to be fetched
   :param files: list of file info dicts
   '''
+  jobs = []
   for file_info in files:
     verbose('Checking {}'.format(file_info['url']))
     if not os.path.isdir(file_info['filedir']):
@@ -136,15 +140,13 @@ def fetch_files(files):
         verbose('Skipping {}, it already exists'.format(file_info['filepath']))
       else:
         info('File {} needs to be updated'.format(file_info['filepath']))
-        download(
-          file_info['url'],
-          file_info['filepath']
-        )
+        jobs.append([file_info['url'], file_info['filepath']])
     else:
-      download(
-        file_info['url'],
-        file_info['filepath']
-      )
+      jobs.append([file_info['url'], file_info['filepath']])
+  print(jobs)
+  pool.map(download, jobs)
+  pool.close()
+  pool.join()
 
 
 def purge_old_files(url, data_dir):
