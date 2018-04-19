@@ -74,7 +74,7 @@ def map_files(links, data_dir):
         file_info['filepath']
       )
 
-      if len(results.mirrors) > 0:
+      if results.mirrors:
         mirrors = results.mirrors
         random.shuffle(mirrors)
         for mirror in mirrors+[link]:
