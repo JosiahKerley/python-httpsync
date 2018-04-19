@@ -35,7 +35,7 @@ def verbose(string):
   if enable_verbose: print(str(string))
 
 
-def resolve_links(url, max_depth=4, depth=0):
+def resolve_links(url, max_depth=10, depth=0):
   if not url.endswith('/'): url+='/'
   if depth >= max_depth:
     raise StopIteration
