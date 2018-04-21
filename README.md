@@ -3,9 +3,11 @@ HTTPSync
 
 ## Usage
 ```
-usage: httpsync [-h] --url URL [--mirrors [MIRRORS [MIRRORS ...]]] --directory
-                DIRECTORY [--max-depth MAX_DEPTH] [--delete] [--verbose]
-                [--daemon] [--daemon-delay DAEMON_DELAY] [--version]
+usage: httpsync [-h] --url URL [--mirrors [MIRRORS [MIRRORS ...]]]
+                [--exclude [EXCLUDE [EXCLUDE ...]]] --directory DIRECTORY
+                [--delete] [--verbose] [--daemon]
+                [--daemon-delay DAEMON_DELAY] [--cache-file CACHE_FILE]
+                [--version]
 
 HTTP Based Mirroring Tool
 
@@ -14,15 +16,17 @@ optional arguments:
   --url URL, -u URL     URL of site to mirror
   --mirrors [MIRRORS [MIRRORS ...]], -m [MIRRORS [MIRRORS ...]]
                         List of mirrors to attempt the download
+  --exclude [EXCLUDE [EXCLUDE ...]], -e [EXCLUDE [EXCLUDE ...]]
+                        String to exclude
   --directory DIRECTORY, -d DIRECTORY
                         Directory to store files
-  --max-depth MAX_DEPTH, -M MAX_DEPTH
-                        Maximum depth to traverse
   --delete              Delete files no longer in the server
   --verbose, -v         Verbose output
   --daemon, -D          Run as a daemon
   --daemon-delay DAEMON_DELAY
                         Seconds of delay between each run
+  --cache-file CACHE_FILE, -c CACHE_FILE
+                        Path to job cache file
   --version             show program's version number and exit
 ```
 

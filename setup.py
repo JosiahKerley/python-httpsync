@@ -23,7 +23,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as file:
 requirements = [str(ir.req) for ir in install_reqs]
 setup(
   name             = 'HTTPSync',
-  version          = '1.0.0',
+  version          = '1.0.1',
   description      = 'Tool to sync down files from a URL',
   author           = 'Josiah Kerley',
   author_email     = 'josiahkerley.@gmail.com',
